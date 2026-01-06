@@ -1,0 +1,82 @@
+<mujoco>
+    <compiler angle="radian"/>
+    
+    <option timestep="0.005" gravity="0 0 -9.81">
+        <flag warmstart="enable"/>
+    </option>
+    
+    <default>
+        <joint damping="1" armature="0.01"/>
+        <geom condim="4" friction="1 0.5 0.005"/>
+    </default>
+
+    <asset>
+        <mesh name="base_mesh" file="mesh/base.stl" scale="0.001 0.001 0.001"/>
+        <mesh name="left_shoulder_mesh" file="mesh/left_shoulder.stl" scale="0.001 0.001 0.001"/>
+        <mesh name="left_elbow_mesh" file="mesh/left_elbow.stl" scale="0.001 0.001 0.001"/>
+        <mesh name="right_shoulder_mesh" file="mesh/right_shoulder.stl" scale="0.001 0.001 0.001"/>
+        <mesh name="right_elbow_mesh" file="mesh/right_elbow.stl" scale="0.001 0.001 0.001"/>
+        <texture type="skybox" builtin="gradient" rgb1="1 1 1" rgb2=".6 .8 1" width="256" height="256" />
+        <texture name="texplane" type="2d" builtin="checker" rgb1=".2 .3 .4" rgb2=".1 0.15 0.2" width="512" height="512"/>
+        <material name="matplane" texture="texplane" texrepeat="1 1" texuniform="true" />
+    </asset>
+
+    <worldbody>
+        <light directional="true" diffuse=".4 .4 .4" specular="0.1 0.1 0.1" pos="0 0 3" dir="0 0 -1" />
+        <geom name="ground" type="plane" size="0 0 1" pos="0 0 0" quat="1 0 0 0" material="matplane" condim="1" />
+        
+        <body name="base_mesh">
+            <freejoint/>
+            <inertial pos="0.083372 0.122321 0.033796" mass="1.325" fullinertia="0.009115 0.006313 0.01323 -0.000207 0.0000844361 -0.0001727"/>
+            <geom type="mesh" mesh="base_mesh" rgba="1 1 1 1"/>
+
+            <body name="left_shoulder_mesh">
+                <inertial pos="-0.042368 0.121687 0.039192" mass="0.163879" fullinertia="0.0000635808 0.0001927 0.0001805 5.24998e-7 0.0000141354 -1.54307999e-7"/>
+                <joint name="left_shoulder_joint" type="hinge" pos="-0.052268 0.121793 0.030" axis="-0.037308 0 0" range="-0.57 0.57" damping="0.1"/>
+                <geom type="mesh" mesh="left_shoulder_mesh" rgba="0.5 0.5 0.5 1"/>
+
+                <body name="left_elbow_mesh">
+                    <inertial pos="-0.195568 0.121927 0.041486" mass="0.610531" fullinertia="0.01645 0.001624 0.01631 -0.0001832 0.0000472762 0.0000017406"/>
+                    <joint name="left_elbow_joint" type="hinge" pos="-0.095438 0.096864 0.041193" axis="0 0.044 0" range="-0.57 0.57" damping="0.1"/>
+                    <geom type="mesh" mesh="left_elbow_mesh" rgba="1 0 0 1"/>
+                </body>
+            </body>
+        
+            <body name="right_shoulder_mesh">
+                <inertial pos="0.211738 0.121818 0.039192" mass="0.163879" fullinertia="0.0000635808 0.0001927 0.0001805 5.24998e-7 -0.0000141354 1.54307999e-7"/>
+                <joint name="right_shoulder_joint" type="hinge" pos="0.184338 0.121712 0.030" axis="0.0054 0 0" range="-0.57 0.57" damping="0.1"/>
+                <geom type="mesh" mesh="right_shoulder_mesh" rgba="0 1 0 1"/>
+
+                <body name="right_elbow_mesh">
+                    <inertial pos="0.364827 0.121545 0.041486" mass="0.610531" fullinertia="0.01645 0.001624 0.01631 -0.0001832 -0.0000472762 -0.0000017406"/>
+                    <joint name="right_elbow_joint" type="hinge" pos="0.264697 0.096609 0.041193" axis="0 0.044 0" range="-0.57 0.57" damping="0.1"/>
+                    <geom type="mesh" mesh="right_elbow_mesh" rgba="0 0 1 1"/>
+                </body>
+            </body>
+        </body>
+    </worldbody>
+
+    <contact>
+        <exclude name="e0" body1="base_mesh" body2="left_shoulder_mesh" />
+    </contact>
+
+    <contact>
+        <exclude name="e1" body1="left_shoulder_mesh" body2="left_elbow_mesh" />
+    </contact>
+
+    <actuator>
+        <!-- Position servos with PD control - increased gains for more responsive movement -->
+        <position name="left_shoulder_servo" joint="left_shoulder_joint"
+                kp="35" kv="3.5" ctrlrange="-0.57 0.57"/>
+        
+        <position name="left_elbow_servo" joint="left_elbow_joint"
+                kp="30" kv="3" ctrlrange="-0.57 0.57"/>
+        
+        <position name="right_shoulder_servo" joint="right_shoulder_joint"
+                kp="35" kv="3.5" ctrlrange="-0.57 0.57"/>
+        
+        <position name="right_elbow_servo" joint="right_elbow_joint" 
+                kp="30" kv="3" ctrlrange="-0.57 0.57"/> 
+    </actuator>
+
+</mujoco>
