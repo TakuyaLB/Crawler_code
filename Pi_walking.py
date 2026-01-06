@@ -7,10 +7,10 @@ import time
 import threading
 import numpy as np
 
-sys.path.append('../9DoF_MARG_Madgwick_Filter/Raspberry_pi/Madwick_filter')
-import Madgwick_Filter as mf
+#sys.path.append('../9DoF_MARG_Madgwick_Filter/Raspberry_pi/Madwick_filter')
+#import Madgwick_Filter as mf
 
-import PID_controller as pidc
+#import PID_controller as pidc
 
 LX16A.initialize("/dev/ttyUSB0", 0.1)
 
@@ -86,7 +86,7 @@ def balance(pid, neutral_angles):
     LX16A(2).move(neutral_angles['2']-orientation['pitch'])
     LX16A(5).move(neutral_angles['5']+orientation['pitch'])
     '''
-    print(mf.latest_orientation)
+    #print(mf.latest_orientation)
 
 def basic_move(dir):
     try:
@@ -121,6 +121,7 @@ def get_key():
     return None
 
 def main():
+    '''
     pid = pidc.PIDController(
         kp=1.0,      # Start here and adjust
         ki=0.0,      # Low to prevent windup
@@ -133,6 +134,7 @@ def main():
 
     print("starting Madgwick filter...")
     time.sleep(2)
+    '''
 
     try:
         for i in range(2, num_servos):

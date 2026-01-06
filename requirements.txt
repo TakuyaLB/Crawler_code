@@ -1,0 +1,8 @@
+matplotlib==3.1.1
+mujoco==3.3.7
+pylx16a==1.1.1
+numpy
+gymnasium
+stable_baselines3
+pytorch
+python
