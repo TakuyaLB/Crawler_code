@@ -34,9 +34,9 @@ This runs the real-time MuJoCo viewer with the robot model running a sin-based c
 ## RL training - `ppo_train.py`
 This uses `gymnasium` to train the `stable_baselines3` implementation of the PPO algorithm in the MuJoCo environment. The reward function is set to encourage smooth crabwalking without using the Klann linkages (which are imported as single rigid STL files so they can't move). The number of timesteps can easily be changed through the `timesteps` argument of the `train_model` function. 200,000 is relatively quick and dirty, 1 or 2 million is more substancial (>20 minutes training time). The output policy parameters are saved as `ppo_gait_actuator_1.zip`. These are neural network weights, NOT sin parameters.
 
-## RL testing in simulation - `ppo_test_viewer.py`
+## RL testing in simulation - `ppo_test.py`
 This runs the MuJoCo real-time viewer to show you the trained gait (same idea as `mesh_demo_test.py`). It runs the policy by running a neural network with the weights in `ppo_gait_actuator_1` for each step, feeding in IMU data and servo positions each time to get the next servo positions as output. The simulation is set to run at the same rate as the training and real robot updates.
 
-## RL sim-to-real - `ppo_test.py`
-This effectively does the same thing as `ppo_test_viewer` except instead of sending each set of model-output servo positions to the MuJoCo test environment, it sends them to the actual servos on the robot. To do this, the output motor angles have to be converted, translating rad to deg, changing direction where needed, and adding offsets for where the zero position on the actual servo is different to in MuJoCo. Note that for this to work on the robot, the model weights need to be put on the robot as well.
+## RL sim-to-real - `Pi_walking_RL.py`
+This effectively does the same thing as `ppo_test` except instead of sending each set of model-output servo positions to the MuJoCo test environment, it sends them to the actual servos on the robot. To do this, the output motor angles have to be converted, translating rad to deg, changing direction where needed, and adding offsets for where the zero position on the actual servo is different to in MuJoCo. Note that for this to work on the robot, the model weights need to be put on the robot as well.
 
