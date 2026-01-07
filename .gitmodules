@@ -1,0 +1,3 @@
+[submodule "external/9DoF_MARG_Madgwick_Filter"]
+	path = external/9DoF_MARG_Madgwick_Filter
+	url = https://github.com/DonovanZhu/9DoF_MARG_Madgwick_Filter.git
