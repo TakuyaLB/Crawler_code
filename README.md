@@ -6,6 +6,8 @@ Code for the crawler robot (fall 2025 robot studio) including basic walking, sim
 ## Setup
 `Pi_walking.py` and `Pi_walking_RL.py` need to be run on the robot. The rest are run on your machine. `requirements.txt` has all the required packages listed for both the robot and local machine, use it to set up environments on both.
 
+When cloning this repo on the robot, don't forget to include the submodules (this includes the madgwick filter submodule in `external`). Follow the setup instructions for the filter on that repo's `README`.
+
 ## Basic Walking - `Pi_walking.py`
 This is the code to allow keyboard controlled walking using the geartrain-powered legs. The keyboard commands are:
 
